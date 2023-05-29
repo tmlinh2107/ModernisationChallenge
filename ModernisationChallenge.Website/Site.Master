@@ -1,0 +1,29 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="ModernisationChallenge.SiteMaster" %>
+
+<!DOCTYPE html>
+
+<html lang="en">
+    <head runat="server">
+        <meta charset="utf-8" />
+        <title>Modernisation Challenge</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet" type="text/css" />
+        <link href="/StyleSheet.css" rel="stylesheet" type="text/css" />
+        <script src="/JavaScript.js" type="text/javascript"></script>
+        <asp:ContentPlaceHolder ID="HeadContentPlaceHolder" runat="server" />
+    </head>
+    <body>
+        <form id="Form" runat="server">
+            <asp:ScriptManager AsyncPostBackTimeout="600" EnableHistory="true" EnablePageMethods="true" runat="server" />
+
+			<script type="text/javascript">
+				Sys.WebForms.PageRequestManager.getInstance().add_beginRequest(pageBeginRequest);
+				Sys.WebForms.PageRequestManager.getInstance().add_endRequest(pageEndRequest);
+            </script>
+
+            <main>
+                <asp:ContentPlaceHolder ID="BodyContentPlaceHolder" runat="server" />
+            </main>
+        </form>
+    </body>
+</html>
