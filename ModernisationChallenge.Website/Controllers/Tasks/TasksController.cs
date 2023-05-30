@@ -59,6 +59,11 @@ public class TasksController : ControllerBase
     [SwaggerOperation(Summary = "Create a new task", Description = "Create a new task")]
     public async Task<IActionResult> CreateTaskAsync([FromBody] CreateOrUpdateTaskRequest request)
     {
+        if (string.IsNullOrWhiteSpace(request.Details))
+        {
+            return BadRequest("The details must not be empty.");
+        }
+
         var task = new TaskEntity()
         {
             Completed = false,
