@@ -1,25 +1,32 @@
-﻿using System;
-using System.Configuration;
-using System.Data.Linq;
-using System.Data.Linq.Mapping;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System;
 
-namespace ModernisationChallenge.DataAccess
+namespace ModernisationChallenge.DataAccess;
+
+public class DataContext : DbContext
 {
-    public class DataContext : System.Data.Linq.DataContext
+    protected readonly IConfiguration Configuration;
+
+    public DataContext()
     {
-        private readonly static MappingSource mappingSource = new AttributeMappingSource();
+    }
 
-        public DataContext()
-            : base(ConfigurationManager.ConnectionStrings["ModernisationChallenge"].ConnectionString, DataContext.mappingSource)
-        {
-        }
+    public DataContext(DbContextOptions<DataContext> options)
+         : base(options)
+    {
+    }
 
-        public Table<Task> Tasks
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        base.OnConfiguring(optionsBuilder);
+
+        if (!optionsBuilder.IsConfigured)
         {
-            get
-            {
-                return GetTable<Task>();
-            }
+            // connect to sql server with connection string from app settings
+            optionsBuilder.UseSqlServer(Configuration.GetConnectionString("ModernisationChallenge"));
         }
     }
+
+    public virtual DbSet<Task> Tasks { get; set; }
 }

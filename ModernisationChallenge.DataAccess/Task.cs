@@ -1,27 +1,24 @@
 ﻿using System;
-using System.Data.Linq.Mapping;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ModernisationChallenge.DataAccess
+namespace ModernisationChallenge.DataAccess;
+
+[Table("Tasks")]
+public class Task
 {
-    [Table(Name = "Tasks")]
-    public class Task
-    {
-        [Column(CanBeNull = false, IsDbGenerated = true, IsPrimaryKey = true)]
-        public int? Id { get; set; }
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Id { get; set; }
 
-        [Column(CanBeNull = false)]
-        public DateTime? DateCreated { get; set; }
+    public DateTime DateCreated { get; set; }
 
-        [Column(CanBeNull = false)]
-        public DateTime? DateModified { get; set; }
+    public DateTime DateModified { get; set; }
 
-        [Column(CanBeNull = true)]
-        public DateTime? DateDeleted { get; set; }
+    public DateTime? DateDeleted { get; set; }
 
-        [Column(CanBeNull = false)]
-        public bool? Completed { get; set; }
+    public bool Completed { get; set; }
 
-        [Column(CanBeNull = false)]
-        public string Details { get; set; }
-    }
+    [Required]
+    public string Details { get; set; }
 }
