@@ -87,7 +87,7 @@ namespace ModernisationChallenge.Website.Test.Controllers
         public async Task Should_CreateTask_ValidInput_Success()
         {
             var result = await _tasksController.CreateTaskAsync(new CreateOrUpdateTaskRequest("Task 1"));
-            Assert.IsType<CreatedAtActionResult>(result);
+            Assert.IsType<CreatedAtRouteResult>(result);
         }
 
         [Fact]

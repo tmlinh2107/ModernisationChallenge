@@ -22,7 +22,7 @@ public class TasksController : ControllerBase
         _context = context;
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id}", Name = "GetTask")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [SwaggerOperation(Summary = "Get task by id", Description = "Get task by id")]
@@ -64,15 +64,15 @@ public class TasksController : ControllerBase
             Completed = false,
             DateCreated = DateTime.UtcNow,
             DateModified = DateTime.UtcNow,
-            Details = request.Detail,
+            Details = request.Details,
         };
 
         _context.Tasks.Add(task);
-        var result = await _context.SaveChangesAsync();
 
+        var result = await _context.SaveChangesAsync();
         if (result > 0)
         {
-            return CreatedAtAction(nameof(GetById), new { });
+            return CreatedAtRoute("GetTask", new { id = task.Id }, request);
         }
 
         return BadRequest();
@@ -90,7 +90,7 @@ public class TasksController : ControllerBase
             return NotFound("The task not found");
         }
 
-        task.Details = request.Detail;
+        task.Details = request.Details;
         task.DateModified = DateTime.UtcNow;
 
         _context.Tasks.Update(task);
@@ -134,7 +134,7 @@ public class TasksController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [SwaggerOperation(Summary = "Update task is complated", Description = "Update task is complated")]
-    public async Task<IActionResult> UpdateTaskCompletedAsync(int id, [FromBody] bool isCompleted)
+    public async Task<IActionResult> UpdateTaskCompletedAsync(int id, bool isCompleted)
     {
         var task = await _context.Tasks.FindAsync(id);
         if (task == null)
